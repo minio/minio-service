@@ -8,8 +8,8 @@ AssertFileIsExecutable=/usr/local/bin/minio
 [Service]
 WorkingDirectory=/usr/local/
 
-User=minio
-Group=minio
+User=root
+Group=root
 
 PermissionsStartOnly=true
 

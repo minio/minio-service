@@ -17,14 +17,6 @@ Give execute permission to the Minio binary.
 $ chmod +x /usr/local/bin/minio
 ```
 
-## Create user `minio`
-
-Systemd is configured with User=minio.
-
-```sh
-$ useradd minio
-```
-
 ## Create default configuration.
 
 Don't forget to update MINIO_VOLUMES with the correct path.
