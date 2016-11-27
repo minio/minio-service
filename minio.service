@@ -3,7 +3,6 @@ Description=Minio
 Documentation=https://docs.minio.io
 Wants=network-online.target
 After=network-online.target
-AssertPathExists=/etc/minio/
 AssertFileIsExecutable=/usr/local/bin/minio
 
 [Service]

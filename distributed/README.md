@@ -32,7 +32,7 @@ Don't forget to update MINIO_VOLUMES with the correct path(s).
 ```sh
 $ cat <<EOT >> /etc/default/minio
 # Remote node configuration.
-MINIO_VOLUMES=http://node1/drive1 http://node2/drive1 http://node3/tmp/drive1 http://minio4/tmp/drive1
+MINIO_VOLUMES=http://node1/export1 http://node2/export2 http://node3/export3 http://node4/export4
 # Use if you want to run Minio on a custom port.
 MINIO_OPTS="--address :9199"
 # Access Key of the server.
