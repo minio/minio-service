@@ -27,13 +27,23 @@ $ useradd minio
 
 ## Create default configuration.
 
-Don't forget to update MINIO_VOLUMES with the correct path(s).
+Don't forget to update MINIO_VOLUMES with the correct path.
 ```
 cat <<EOT >> /etc/default/minio
 # Local export path.
 MINIO_VOLUMES="/tmp/minio/"
 # Use if you want to run Minio on a custom port.
 MINIO_OPTS="--address :9199"
+
+EOT
+```
+
+## Override default keys.
+
+By default minio reads credentials from `${HOME}/.minio/config.json`. You can
+override these values with custom credentials in `/etc/default/minio`.
+```
+cat <<EOT >> /etc/default/minio
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
 # Secret key of the server.
@@ -42,9 +52,10 @@ MINIO_SECRET_KEY=Server-Secret-Key
 EOT
 ```
 
+configuration to override default keys.
 ## Systemctl
 
-Download and put `minio.service` in  `/etc/systemd/system/`
+Download `minio.service` in  `/etc/systemd/system/`
 ```
 ( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio/master/dist/linux-systemd/minio.service )
 ```

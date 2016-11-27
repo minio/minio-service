@@ -27,7 +27,7 @@ $ useradd minio
 
 ## Create the Environment configuration file.
 
-Don't forget to update MINIO_VOLUMES with the correct path(s).
+Don't forget to update MINIO_VOLUMES with the correct paths.
 
 ```sh
 $ cat <<EOT >> /etc/default/minio
@@ -35,6 +35,18 @@ $ cat <<EOT >> /etc/default/minio
 MINIO_VOLUMES=http://node1/export1 http://node2/export2 http://node3/export3 http://node4/export4
 # Use if you want to run Minio on a custom port.
 MINIO_OPTS="--address :9199"
+
+EOT
+```
+
+## Override default keys.
+
+By default minio reads credentials from `${HOME}/.minio/config.json`. For
+distriuted setup it is required to copy this file across all nodes to have
+consistent credentials. You can override this behavior add custom credentials
+in `/etc/default/minio`.
+```
+cat <<EOT >> /etc/default/minio
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
 # Secret key of the server.
@@ -45,7 +57,7 @@ EOT
 
 ## Systemctl
 
-Download and put `minio.service` in  `/etc/systemd/system/`
+Download `minio.service` in  `/etc/systemd/system/`
 ```
 ( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio/master/dist/linux-systemd/minio.service )
 ```
