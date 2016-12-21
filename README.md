@@ -49,7 +49,7 @@ configuration to override default keys.
 
 Download `minio.service` in  `/etc/systemd/system/`
 ```
-( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio/master/dist/linux-systemd/minio.service )
+( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-systemd/master/minio.service )
 ```
 
 Enable startup on boot
