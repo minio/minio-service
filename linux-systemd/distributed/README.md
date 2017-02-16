@@ -1,4 +1,4 @@
-# minio-systemd
+# Systemd service for Minio
 
 Systemd script for Distributed Minio server.
 
@@ -6,16 +6,6 @@ Systemd script for Distributed Minio server.
 
 - Systemd script is configured to run the binary from /usr/local/bin/.
 - Download the binary. Find the relevant links for the binary at https://minio.io/downloads/#minio-server.
-
-```sh
-$ wget -O /usr/local/bin/minio https://dl.minio.io/server/minio/release/linux-amd64/minio
-```
-
-Give execute permission to the Minio binary.
-
-```sh
-$ chmod +x /usr/local/bin/minio
-```
 
 ## Create the Environment configuration file.
 
@@ -51,7 +41,7 @@ EOT
 
 Download `minio.service` in  `/etc/systemd/system/`
 ```
-( cd /etc/systemd/system/; curl -O https://github.com/minio/minio-systemd/blob/master/distributed/minio.service )
+( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/distributed/minio.service )
 ```
 
 Enable startup on boot

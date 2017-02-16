@@ -1,59 +1,21 @@
-# minio-systemd
+Minio Init/Service Scripts
+====================
 
-Systemd script for Minio server.
+This project provides init/service scripts for using Minio on various Linux and BSD distributions.
 
-## Installation
+## Getting Help
 
-- Systemd script is configured to run the binary from /usr/local/bin/.
-- Download the binary. Find the relevant links for the binary at https://minio.io/downloads/#minio-server.
+Please reach to us at https://slack.minio.io if you need help in configuring.  Please open a [github issue](https://github.com/minio/minio/issues) on Minio server for bugs, enhancements etc on this project.
 
-```sh
-$ wget -O /usr/local/bin/minio https://dl.minio.io/server/minio/release/linux-amd64/minio
-```
+## Guidelines
 
-Give execute permission to the Minio binary.
+The files distributed here should adhere to these principles where relevant (adjust accordingly for each system/platform):
 
-```sh
-$ chmod +x /usr/local/bin/minio
-```
-
-## Create default configuration.
-
-Don't forget to update MINIO_VOLUMES with the correct path.
-```
-cat <<EOT >> /etc/default/minio
-# Local export path.
-MINIO_VOLUMES="/tmp/minio/"
-# Use if you want to run Minio on a custom port.
-MINIO_OPTS="--address :9199"
-
-EOT
-```
-
-## Override default keys.
-
-By default minio reads credentials from `${HOME}/.minio/config.json`. You can
-override these values with custom credentials in `/etc/default/minio`.
-```
-cat <<EOT >> /etc/default/minio
-# Access Key of the server.
-MINIO_ACCESS_KEY=Server-Access-Key
-# Secret key of the server.
-MINIO_SECRET_KEY=Server-Secret-Key
-
-EOT
-```
-
-configuration to override default keys.
-## Systemctl
-
-Download `minio.service` in  `/etc/systemd/system/`
-```
-( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-systemd/master/minio.service )
-```
-
-Enable startup on boot
-```
-systemctl enable minio.service
-```
-
+- Don't run as root.
+- Create a no-shell default user to run it.
+- Raise file descriptor limits.
+- Don't restart endlessly; if Minio fails to start, there's a reason -- fix it, don't hammer it.
+- Allow Minio to re-use the same, persistent folder for your configs.
+- Stay as simple and minimal as possible.
+- Be idempotent.
+- Use comments to explain unexpected or unusual lines/patterns.

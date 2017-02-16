@@ -1,0 +1,79 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          minio
+# Required-Start:    $local_fs $network $named $time $syslog
+# Required-Stop:     $local_fs $network $named $time $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts minio object storage server
+# Description:       starts minio using start-stop-daemon
+### END INIT INFO
+
+DESC="Minio object storage server"
+NAME=minio
+DAEMON=$(which minio)
+
+DAEMONUSER=minio-user
+PIDFILE=/var/run/$NAME.pid
+
+USERBIND="setcap cap_net_bind_service=+ep"
+STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
+
+test -x $DAEMON || exit 0
+
+# Set the MINIOCONFIGPATH and MINIOVOLUMES;
+export MINIOCONFIGPATH=/etc/minio/
+export MINIOVOLUMES=/mnt/export
+DAEMONOPTS="--config-dir ${MINIOCONFIGPATH} server ${MINIOVOLUMES}"
+
+# Set the ulimits
+ulimit -n 8192
+
+start() {
+    $USERBIND $DAEMON
+    start-stop-daemon --start --quiet --make-pidfile --pidfile $PIDFILE \
+        --background --chuid $DAEMONUSER --oknodo --exec $DAEMON -- $DAEMONOPTS
+}
+
+stop() {
+    start-stop-daemon --stop --quiet --pidfile $PIDFILE --retry=$STOP_SCHEDULE \
+        --name $NAME --oknodo
+    rm -f $PIDFILE
+}
+
+status() {
+    if [ -f $PIDFILE ]; then
+        if kill -0 $(cat "$PIDFILE"); then
+            echo "$NAME is running"
+        else
+            echo "$NAME process is dead, but pidfile exists"
+        fi
+    else
+        echo "$NAME is not running"
+    fi
+}
+
+case "$1" in
+    start)
+        echo "Starting $NAME"
+        start
+    ;;
+    stop)
+        echo "Stopping $NAME"
+        stop
+    ;;
+    restart)
+        echo "Restarting $NAME"
+        stop
+        start
+    ;;
+    status)
+        status
+    ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 2
+    ;;
+esac
+
+exit 0
