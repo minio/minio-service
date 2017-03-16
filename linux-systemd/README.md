@@ -46,4 +46,7 @@ Enable startup on boot
 ```
 systemctl enable minio.service
 ```
-
+# Local export path.
+MINIO_VOLUMES="/miniotest"
+# Use if you want to run Minio on a custom port.
+MINIO_OPTS="--address :9000"
