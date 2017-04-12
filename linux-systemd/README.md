@@ -23,7 +23,8 @@ EOT
 ## Override default keys.
 
 By default minio reads credentials from `${HOME}/.minio/config.json`. You can
-override these values with custom credentials in `/etc/default/minio`.
+override these values by adding custom credentials in `/etc/default/minio`.
+
 ```
 cat <<EOT >> /etc/default/minio
 # Access Key of the server.
@@ -34,7 +35,6 @@ MINIO_SECRET_KEY=Server-Secret-Key
 EOT
 ```
 
-configuration to override default keys.
 ## Systemctl
 
 Download `minio.service` in  `/etc/systemd/system/`
@@ -42,15 +42,17 @@ Download `minio.service` in  `/etc/systemd/system/`
 ( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
 ```
 
-Enable startup on boot
+### Enable startup on boot
 ```
 systemctl enable minio.service
 ```
+
+### Disable Minio service
+```
+systemctl disable minio.service
+```
+
 ## Note
 
 - Replace ``User=minio-user`` and ``Group=minio-user`` in minio.service file with your local setup.
 - Ensure that ``MINIO_VOLUMES`` source has appropirate write access.
-
-
-
-
