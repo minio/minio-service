@@ -18,6 +18,9 @@ ExecStartPre=/bin/bash -c "[ -n \"${MINIO_VOLUMES}\" ] || echo \"Variable MINIO_
 
 ExecStart=/usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
 
+# Let systemd restart this service only if it has ended with the clean exit code or signal.
+Restart=on-success
+
 StandardOutput=journal
 StandardError=inherit
 
