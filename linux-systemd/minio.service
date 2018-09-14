@@ -14,7 +14,7 @@ Group=minio-user
 PermissionsStartOnly=true
 
 EnvironmentFile=-/etc/default/minio
-ExecStartPre=/bin/bash -c "[ -n \"${MINIO_VOLUMES}\" ] || echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\""
+ExecStartPre=/bin/bash -c "[ -n \"${MINIO_VOLUMES}\" ] && echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\""
 
 ExecStart=/usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
 

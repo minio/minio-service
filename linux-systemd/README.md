@@ -7,26 +7,18 @@ Systemd script for Minio server.
 - Systemd script is configured to run the binary from /usr/local/bin/.
 - Download the binary. Find the relevant links for the binary at https://minio.io/downloads/#minio-server.
 
-## Create default configuration.
+## Create default configuration
 
-Don't forget to update MINIO_VOLUMES with the correct path.
-```
-cat <<EOT >> /etc/default/minio
-# Local export path.
+This file serves as input to Minio systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths,
+`MINIO_OPTS` to add Minio server options like `config-dir`, `address`. Minio credentials can be
+`MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
+
+```sh
+$ cat <<EOT >> /etc/default/minio
+# Volume to be used for Minio server.
 MINIO_VOLUMES="/tmp/minio/"
 # Use if you want to run Minio on a custom port.
 MINIO_OPTS="--address :9199"
-
-EOT
-```
-
-## Override default keys.
-
-By default minio reads credentials from `${HOME}/.minio/config.json`. You can
-override these values by adding custom credentials in `/etc/default/minio`.
-
-```
-cat <<EOT >> /etc/default/minio
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
 # Secret key of the server.
