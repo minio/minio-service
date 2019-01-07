@@ -10,7 +10,7 @@ Systemd script for Minio server.
 ## Create default configuration
 
 This file serves as input to Minio systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths,
-`MINIO_OPTS` to add Minio server options like `config-dir`, `address`. Minio credentials can be
+`MINIO_OPTS` to add Minio server options like `certs-dir`, `address`. Minio credentials can be
 `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
 
 ```sh
