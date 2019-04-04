@@ -1,7 +1,7 @@
-FreeBSD service for Minio
+FreeBSD service for MinIO
 =======================
 
-FreeBSD already packages and provides Minio port. Thanks to Steve Wills.
+FreeBSD already packages and provides MinIO port. Thanks to Steve Wills.
 
 Usage
 -----

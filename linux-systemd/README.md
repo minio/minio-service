@@ -1,23 +1,21 @@
-# Systemd service for Minio
+# Systemd service for MinIO
 
-Systemd script for Minio server.
+Systemd script for MinIO server.
 
 ## Installation
 
 - Systemd script is configured to run the binary from /usr/local/bin/.
-- Download the binary. Find the relevant links for the binary at https://minio.io/downloads/#minio-server.
+- Download the binary. Find the relevant links for the binary at https://min.io/download/#linux.
 
 ## Create default configuration
 
-This file serves as input to Minio systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths,
-`MINIO_OPTS` to add Minio server options like `certs-dir`, `address`. Minio credentials can be
-`MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
+This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials can be `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
 
 ```sh
 $ cat <<EOT >> /etc/default/minio
-# Volume to be used for Minio server.
+# Volume to be used for MinIO server.
 MINIO_VOLUMES="/tmp/minio/"
-# Use if you want to run Minio on a custom port.
+# Use if you want to run MinIO on a custom port.
 MINIO_OPTS="--address :9199"
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
@@ -39,7 +37,7 @@ Download `minio.service` in  `/etc/systemd/system/`
 systemctl enable minio.service
 ```
 
-### Disable Minio service
+### Disable MinIO service
 ```
 systemctl disable minio.service
 ```

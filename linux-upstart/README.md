@@ -1,10 +1,10 @@
-Upstart service for Minio
+Upstart service for MinIO
 =====================
 
 Usage
 -----
 
-- [Download Minio](https://minio.io/downloads) in `/usr/local/bin/minio`.
+- [Download MinIO](https://minio.io/downloads) in `/usr/local/bin/minio`.
 - Execute `sudo setcap cap_net_bind_service=+ep /usr/local/bin/minio`.
 - Ensure that config folder `/etc/minio` exists and `minio-user` can access it.
 - Ensure that export folder `/mnt/export` exists and `minio-user` can access it.

@@ -1,23 +1,22 @@
-# Systemd service for Minio
+# Systemd service for MinIO
 
-Systemd script for Distributed Minio server.
+Systemd script for Distributed MinIO server.
 
 ## Installation
 
 - Systemd script is configured to run the binary from /usr/local/bin/.
-- Download the binary. Find the relevant links for the binary at https://minio.io/downloads/#minio-server.
+- Systemd script is configured to run the binary as `minio-user`, make sure you create this user prior using service script.
+- Download the binary. Find the relevant links for the binary at https://min.io/download#/linux.
 
 ## Create the Environment configuration file
 
-This file serves as input to Minio systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths,
-`MINIO_OPTS` to add Minio server options like `certs-dir`, `address`. Minio credentials should be
-`MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
+This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials should be `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
 
 ```sh
 $ cat <<EOT >> /etc/default/minio
-# Remote volumes to be used for Minio server.
-MINIO_VOLUMES=http://node1/export1 http://node2/export2 http://node3/export3 http://node4/export4
-# Use if you want to run Minio on a custom port.
+# Remote volumes to be used for MinIO server.
+MINIO_VOLUMES=http://node{1...6}/export{1...32}
+# Use if you want to run MinIO on a custom port.
 MINIO_OPTS="--address :9199"
 # Access Key of the server.
 MINIO_ACCESS_KEY=Server-Access-Key
@@ -42,3 +41,8 @@ Enable startup on boot
 ```
 systemctl enable minio.service
 ```
+
+## Note
+
+- Replace ``User=minio-user`` and ``Group=minio-user`` in minio.service file with your local setup.
+- Ensure that ``MINIO_VOLUMES`` source has appropirate write access.

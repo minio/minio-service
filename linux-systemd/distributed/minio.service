@@ -1,6 +1,6 @@
 [Unit]
-Description=Minio
-Documentation=https://docs.minio.io
+Description=MinIO
+Documentation=https://docs.min.io
 Wants=network-online.target
 After=network-online.target
 AssertFileIsExecutable=/usr/local/bin/minio

@@ -9,7 +9,7 @@
 # Description:       starts minio using start-stop-daemon
 ### END INIT INFO
 
-DESC="Minio object storage server"
+DESC="MinIO object storage server"
 NAME=minio
 DAEMON=$(which minio)
 
