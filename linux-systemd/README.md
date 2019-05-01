@@ -31,7 +31,13 @@ Download `minio.service` in  `/etc/systemd/system/`
 ```
 ( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
 ```
+Note: If you want to bind to a port < 1024 with the service running as a regular user, you will need to add bind capability via the AmbientCapabilities directive in the minio.service file:
 
+```
+[Service]
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+WorkingDirectory=/usr/local/
+```
 ### Enable startup on boot
 ```
 systemctl enable minio.service
