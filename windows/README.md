@@ -2,30 +2,25 @@
 
 ## Install MinIO Service
 
-[NSSM](http://nssm.cc/description) is an opensource alternative to `srvany`. Download [NSSM](http://nssm.cc/download) and extract the 64 bit `nssm.exe` to a known path.
+[winsw](https://github.com/kohsuke/winsw) is a wrapper to run any executable as an Windows service
 
-Then run the `nssm install <servicename>` command with MinIO,
+Copy the `install-service.ps1` in your minio directory and start the powershell script.
+The service is now available with the name `MinIO`
 
+Start Service
 ```
-c:\nssm.exe install MinIO c:\bin\minio.exe server c:\data
+net start MinIO
 ```
 
-## Configure startup type
-
-When you start services, look for the MinIO service and start and stop (or make it automatically start at reboots) the service.
-
-![Configure startup type](https://raw.githubusercontent.com/minio/minio-service/master/screenshots/windows-configure-startup-type.png)
-
-## Configure user
-
-It is a good (and secure) practice to create a new user, assign rights to the data folder to this user and change the service Log On info to use the newly created user.
-
-![Configure user](https://raw.githubusercontent.com/minio/minio-service/master/screenshots/windows-configure-user.png)
+Stop Service
+```
+net stop MinIO
+```
 
 ## Delete MinIO service
 
 To delete MinIO service,
 
 ```
-c:\nssm.exe remove MinIO
+minio-service.exe uninstall
 ```
