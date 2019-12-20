@@ -19,3 +19,6 @@ The files distributed here should adhere to these principles where relevant (adj
 - Stay as simple and minimal as possible.
 - Be idempotent.
 - Use comments to explain unexpected or unusual lines/patterns.
+
+## Issues
+Please open any issue at https://github.com/minio/minio/issues
