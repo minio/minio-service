@@ -4,7 +4,7 @@ if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 Set-Location -Path $PSScriptRoot
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Invoke-WebRequest -Uri "https://github.com/kohsuke/winsw/releases/download/winsw-v2.2.0/WinSW.NET4.exe" -OutFile "minio-service.exe"
+Invoke-WebRequest -Uri "https://github.com/winsw/winsw/releases/download/v2.8.0/WinSW.NET4.exe" -OutFile "minio-service.exe"
 
 $config = @'
 <service>
@@ -12,6 +12,8 @@ $config = @'
   <name>MinIO</name>
   <description>MinIO is a high performance object storage server</description>
   <executable>minio.exe</executable>
+  <env name="MINIO_ACCESS_KEY" value="minio"/>
+  <env name="MINIO_SECRET_KEY" value="minio123"/>
   <arguments>server C:\minio</arguments>
   <logmode>rotate</logmode>
 </service>
