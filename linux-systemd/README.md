@@ -9,7 +9,7 @@ Systemd script for MinIO server.
 
 ## Create default configuration
 
-This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials can be `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
+This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials can be `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` in this file as well.
 
 ```sh
 $ cat <<EOT >> /etc/default/minio
@@ -17,10 +17,10 @@ $ cat <<EOT >> /etc/default/minio
 MINIO_VOLUMES="/tmp/minio/"
 # Use if you want to run MinIO on a custom port.
 MINIO_OPTS="--address :9199"
-# Access Key of the server.
-MINIO_ACCESS_KEY=Server-Access-Key
-# Secret key of the server.
-MINIO_SECRET_KEY=Server-Secret-Key
+# Root user for the server.
+MINIO_ROOT_USER=Root-User
+# Root secret for the server.
+MINIO_ROOT_PASSWORD=Root-Password
 
 EOT
 ```

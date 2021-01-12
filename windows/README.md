@@ -59,8 +59,8 @@ minio-service.exe uninstall
   <name>MinIO</name>
   <description>MinIO is a high performance object storage server</description>
   <executable>minio.exe</executable>
-  <env name="MINIO_ACCESS_KEY" value="minio"/>
-  <env name="MINIO_SECRET_KEY" value="minio123"/>
+  <env name="MINIO_ROOT_USER" value="minio"/>
+  <env name="MINIO_ROOT_PASSWORD" value="minio123"/>
   <arguments>server C:\Temp\minio</arguments>
   <logmode>rotate</logmode>
 </service>
