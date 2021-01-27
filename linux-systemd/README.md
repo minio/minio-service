@@ -51,4 +51,4 @@ systemctl disable minio.service
 ## Note
 
 - Replace ``User=minio-user`` and ``Group=minio-user`` in minio.service file with your local setup.
-- Ensure that ``MINIO_VOLUMES`` source has appropirate write access.
+- Ensure that ``MINIO_VOLUMES`` source has appropriate write access.
