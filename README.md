@@ -5,7 +5,7 @@ This project provides init/service scripts for using MinIO on various Linux and 
 
 ## Getting Help
 
-Please reach to us at https://slack.minio.io if you need help in configuring.  Please open a [github issue](https://github.com/minio/minio/issues) on MinIO server for bugs, enhancements etc on this project.
+Please reach to us at [here](https://min.io/pricing) if you need help in configuring and setting up MinIO. Please open a [github issue (https://github.com/minio/minio/issues) on MinIO server projects for bugs, enhancements regarding this project.
 
 ## Guidelines
 
