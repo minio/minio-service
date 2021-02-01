@@ -14,4 +14,4 @@ The files distributed here should adhere to these principles where relevant (adj
 - Allow MinIO to re-use the same, persistent folder for TLS certificates.
 
 ## Issues
-Please open a [github issue] (https://github.com/minio/minio/issues) on MinIO server projects for bugs, enhancements regarding this project.
+Please open an [issue](https://github.com/minio/minio/issues) on MinIO server project for bugs, enhancements regarding this project.
