@@ -22,7 +22,7 @@ Restart=always
 LimitNOFILE=65536
 
 # Specifies the maximum number of threads this process can create
-TasksMax=inifinity
+TasksMax=infinity
 
 # Disable timeout logic and wait until process is stopped
 TimeoutStopSec=infinity
