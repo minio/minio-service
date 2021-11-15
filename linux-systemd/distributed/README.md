@@ -17,12 +17,11 @@ $ cat <<EOT >> /etc/default/minio
 # Remote volumes to be used for MinIO server.
 MINIO_VOLUMES=http://node{1...6}/export{1...32}
 # Use if you want to run MinIO on a custom port.
-MINIO_OPTS="--address :9199"
+MINIO_OPTS="--address :9199 --console-address :9001"
 # Root user for the server.
 MINIO_ROOT_USER=Root-User
 # Root secret for the server.
 MINIO_ROOT_PASSWORD=Root-Password
-
 EOT
 ```
 
