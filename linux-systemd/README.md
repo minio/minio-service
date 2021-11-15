@@ -9,7 +9,7 @@ Systemd script for MinIO server.
 
 ## Create default configuration
 
-This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials can be `MINIO_ACCESS_KEY` and `MINIO_SECRET_KEY` in this file as well.
+This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials can be `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` in this file as well.
 
 ```sh
 $ cat <<EOT >> /etc/default/minio
@@ -17,11 +17,10 @@ $ cat <<EOT >> /etc/default/minio
 MINIO_VOLUMES="/tmp/minio/"
 # Use if you want to run MinIO on a custom port.
 MINIO_OPTS="--address :9199 --console-address :9001"
-# Access Key of the server.
-MINIO_ACCESS_KEY=Server-Access-Key
-# Secret key of the server.
-MINIO_SECRET_KEY=Server-Secret-Key
-
+# Root user for the server.
+MINIO_ROOT_USER=Root-User
+# Root secret for the server.
+MINIO_ROOT_PASSWORD=Root-Password
 EOT
 ```
 
@@ -31,7 +30,13 @@ Download `minio.service` in  `/etc/systemd/system/`
 ```
 ( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
 ```
+Note: If you want to bind to a port < 1024 with the service running as a regular user, you will need to add bind capability via the AmbientCapabilities directive in the minio.service file:
 
+```
+[Service]
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+WorkingDirectory=/usr/local/
+```
 ### Enable startup on boot
 ```
 systemctl enable minio.service
@@ -45,4 +50,4 @@ systemctl disable minio.service
 ## Note
 
 - Replace ``User=minio-user`` and ``Group=minio-user`` in minio.service file with your local setup.
-- Ensure that ``MINIO_VOLUMES`` source has appropirate write access.
+- Ensure that ``MINIO_VOLUMES`` source has appropriate write access.

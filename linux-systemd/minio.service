@@ -10,6 +10,7 @@ WorkingDirectory=/usr/local/
 
 User=minio-user
 Group=minio-user
+ProtectProc=invisible
 
 EnvironmentFile=/etc/default/minio
 ExecStartPre=/bin/bash -c "if [ -z \"${MINIO_VOLUMES}\" ]; then echo \"Variable MINIO_VOLUMES not set in /etc/default/minio\"; exit 1; fi"
@@ -21,6 +22,9 @@ Restart=always
 
 # Specifies the maximum file descriptor number that can be opened by this process
 LimitNOFILE=65536
+
+# Specifies the maximum number of threads this process can create
+TasksMax=infinity
 
 # Disable timeout logic and wait until process is stopped
 TimeoutStopSec=infinity

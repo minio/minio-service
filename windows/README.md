@@ -2,30 +2,66 @@
 
 ## Install MinIO Service
 
-[NSSM](http://nssm.cc/description) is an opensource alternative to `srvany`. Download [NSSM](http://nssm.cc/download) and extract the 64 bit `nssm.exe` to a known path.
+Download the `install-service.ps1` and move it in your `minio` directory and start the powershell script.
+After the script is finished, the service is available with the name `MinIO`
 
-Then run the `nssm install <servicename>` command with MinIO,
-
+Start Service
 ```
-c:\nssm.exe install MinIO c:\bin\minio.exe server c:\data
+net start MinIO
 ```
 
-## Configure startup type
-
-When you start services, look for the MinIO service and start and stop (or make it automatically start at reboots) the service.
-
-![Configure startup type](https://raw.githubusercontent.com/minio/minio-service/master/screenshots/windows-configure-startup-type.png)
-
-## Configure user
-
-It is a good (and secure) practice to create a new user, assign rights to the data folder to this user and change the service Log On info to use the newly created user.
-
-![Configure user](https://raw.githubusercontent.com/minio/minio-service/master/screenshots/windows-configure-user.png)
+Stop Service
+```
+net stop MinIO
+```
 
 ## Delete MinIO service
 
 To delete MinIO service,
 
 ```
-c:\nssm.exe remove MinIO
+minio-service.exe uninstall
+```
+
+
+## Manual install
+
+[winsw](https://github.com/kohsuke/winsw) is a wrapper to run any executable as an Windows service
+
+- Download [WinSW.NET4.exe](https://github.com/kohsuke/winsw/releases/download/winsw-v2.2.0/WinSW.NET4.exe)
+- Rename the `WinSW.NET4.exe` to `minio-service.exe`
+- Create a xml file `minio-service.xml` insert the configuration below
+- Open a `cmd` as Administrator and execute `minio-service.exe install`
+
+```xml
+<service>
+  <id>MinIO</id>
+  <name>MinIO</name>
+  <description>MinIO is a high performance object storage server</description>
+  <executable>minio.exe</executable>
+  <arguments>server C:\Temp\minio</arguments>
+  <logmode>rotate</logmode>
+</service>
+```
+
+## Manual install with ENVs
+
+[winsw](https://github.com/kohsuke/winsw) is a wrapper to run any executable as an Windows service
+
+- Download [WinSW.NET4.exe](https://github.com/kohsuke/winsw/releases/download/winsw-v2.2.0/WinSW.NET4.exe)
+- Rename the `WinSW.NET4.exe` to `minio-service.exe`
+- Create a xml file `minio-service.xml` insert the configuration below
+- Open a `cmd` as Administrator and execute `minio-service.exe install`
+
+```xml
+<service>
+  <id>MinIO</id>
+  <name>MinIO</name>
+  <description>MinIO is a high performance object storage server</description>
+  <executable>minio.exe</executable>
+  <env name="MINIO_ROOT_USER" value="minio"/>
+  <env name="MINIO_ROOT_PASSWORD" value="minio123"/>
+  <arguments>server C:\Temp\minio</arguments>
+  <logmode>rotate</logmode>
+</service>
 ```
