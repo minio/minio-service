@@ -21,6 +21,9 @@ MINIO_OPTS="--address :9199 --console-address :9001"
 MINIO_ROOT_USER=Root-User
 # Root secret for the server.
 MINIO_ROOT_PASSWORD=Root-Password
+
+# set this for MinIO to reload entries with 'mc admin service restart'
+MINIO_CONFIG_ENV_FILE=/etc/default/minio
 EOT
 ```
 
