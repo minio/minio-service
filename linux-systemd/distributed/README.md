@@ -44,7 +44,6 @@ Enable startup on boot
 systemctl enable minio.service
 ```
 
-## Note
+## NOTE
 
-- Replace ``User=minio-user`` and ``Group=minio-user`` in minio.service file with your local setup.
-- Ensure that ``MINIO_VOLUMES`` source has appropirate write access.
+Ensure `minio-user` is created on all thes hosts in distributed setup with write access to data folders.
