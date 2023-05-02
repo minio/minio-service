@@ -5,8 +5,6 @@ Wants=network-online.target
 After=network-online.target
 AssertFileIsExecutable=/usr/local/bin/minio
 AssertFileNotEmpty=/etc/default/minio
-# From Systemd 246/247 AssertEnvironment can be used instead of ExecStartPre Bash one-liner.
-#AssertEnvironment=MINIO_VOLUMES
 
 [Service]
 WorkingDirectory=/usr/local/
