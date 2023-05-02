@@ -65,3 +65,25 @@ minio-service.exe uninstall
   <logmode>rotate</logmode>
 </service>
 ```
+
+## Manual install of distributed MinIO
+
+[winsw](https://github.com/kohsuke/winsw) is a wrapper to run any executable as an Windows service
+
+Below configuration is two MinIO instances with 4 disks for each instances. Please apply following steps to all instances
+
+- Download [WinSW.NET4.exe](https://github.com/kohsuke/winsw/releases/download/winsw-v2.2.0/WinSW.NET4.exe)
+- Rename the `WinSW.NET4.exe` to `minio-service.exe`
+- Create a xml file `minio-service.xml` insert the configuration below
+- Open a `cmd` as Administrator and execute `minio-service.exe install`
+
+```xml
+<service>
+  <id>MinIO</id>
+  <name>MinIO</name>
+  <description>MinIO is a high performance object storage server</description>
+  <executable>minio.exe</executable>
+  <arguments>server http://minio{1...2}/D:/minio/data{1...4}</arguments>
+  <logmode>rotate</logmode>
+</service>
+```
