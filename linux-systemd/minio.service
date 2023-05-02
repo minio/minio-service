@@ -4,6 +4,7 @@ Documentation=https://docs.min.io
 Wants=network-online.target
 After=network-online.target
 AssertFileIsExecutable=/usr/local/bin/minio
+AssertFileNotEmpty=/etc/default/minio
 
 [Service]
 WorkingDirectory=/usr/local/
