@@ -30,9 +30,9 @@ EOT
 
 ## Systemctl
 
-Download `minio.service` in  `/etc/systemd/system/`
+Download `minio.service` in  `/lib/systemd/system/`
 ```
-( cd /etc/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
+( cd /lib/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
 ```
 
 ### Enable startup on boot
