@@ -28,7 +28,8 @@ LimitNOFILE=1048576
 TasksMax=infinity
 
 # Disable timeout logic and wait until process is stopped
-TimeoutStopSec=infinity
+TimeoutSec=infinity
+
 SendSIGKILL=no
 
 [Install]
