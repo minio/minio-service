@@ -30,6 +30,9 @@ TasksMax=infinity
 # Disable timeout logic and wait until process is stopped
 TimeoutSec=infinity
 
+# Disable killing of MinIO by the kernel's OOM killer
+OOMScoreAdjust=-1000
+
 SendSIGKILL=no
 
 [Install]
