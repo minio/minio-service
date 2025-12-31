@@ -30,22 +30,46 @@ EOT
 
 ## Systemctl
 
-Download `minio.service` in  `/lib/systemd/system/`
+Download `minio.service` in `/lib/systemd/system/`
+
 ```
 ( cd /lib/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/minio.service )
 ```
 
 ### Enable startup on boot
+
 ```
 systemctl enable minio.service
 ```
 
 ### Disable MinIO service
+
 ```
 systemctl disable minio.service
+```
+
+## Linux Capabilities
+
+The service file includes the following ambient capabilities:
+
+| Capability             | Purpose                                                 |
+| ---------------------- | ------------------------------------------------------- |
+| `CAP_NET_BIND_SERVICE` | Bind to privileged ports (< 1024)                       |
+| `CAP_SYS_ADMIN`        | S.M.A.R.T. disk health monitoring (NVMe admin commands) |
+| `CAP_DAC_OVERRIDE`     | S.M.A.R.T. disk health monitoring (open block devices)  |
+
+If you're running MinIO outside of systemd, set the capabilities on the binary:
+
+```sh
+sudo setcap 'cap_net_bind_service,cap_sys_admin,cap_dac_override=+ep' /usr/local/bin/minio
+```
+
+For privileged port binding only:
+
+```sh
+sudo setcap cap_net_bind_service=+ep /usr/local/bin/minio
 ```
 
 ## NOTE
 
 Ensure `minio-user` is created on the host with write access to data folders.
-
