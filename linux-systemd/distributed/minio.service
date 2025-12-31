@@ -14,6 +14,10 @@ User=minio-user
 Group=minio-user
 ProtectProc=invisible
 
+# Allow binding to privileged ports (< 1024) without running as root
+# CAP_SYS_ADMIN + CAP_DAC_OVERRIDE enable S.M.A.R.T. disk health monitoring
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_SYS_ADMIN CAP_DAC_OVERRIDE
+
 EnvironmentFile=-/etc/default/minio
 ExecStart=/usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
 
