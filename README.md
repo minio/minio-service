@@ -1,10 +1,13 @@
-# MinIO Init/Service Scripts
-This project provides init/service scripts for using MinIO on various Linux and BSD distributions.
+# MinIO AIStor Init/Service Scripts
+
+This project provides init/service scripts for using MinIO AIStor on various Linux and BSD distributions.
 
 ## Getting Help
-Please reach us [here](https://min.io/pricing) if you need help in configuring and setting up MinIO. 
+
+Please reach us [here](https://min.io/pricing) if you need help in configuring and setting up MinIO AIStor.
 
 ## Guidelines
+
 The files distributed here should adhere to these principles where relevant (adjust accordingly for each system/platform):
 
 - Don't run MinIO as root.
@@ -14,4 +17,5 @@ The files distributed here should adhere to these principles where relevant (adj
 - Allow MinIO to re-use the same, persistent folder for TLS certificates.
 
 ## Issues
+
 Please open an [issue](https://github.com/minio/minio/issues) on MinIO server project for bugs, enhancements regarding this project.

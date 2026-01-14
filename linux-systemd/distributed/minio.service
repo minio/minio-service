@@ -1,5 +1,5 @@
 [Unit]
-Description=MinIO
+Description=MinIO AIStor
 Documentation=https://docs.min.io
 Wants=network-online.target
 After=network-online.target
@@ -43,5 +43,3 @@ SendSIGKILL=no
 
 [Install]
 WantedBy=multi-user.target
-
-# Built for ${project.name}-${project.version} (${project.name})

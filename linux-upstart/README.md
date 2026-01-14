@@ -1,8 +1,6 @@
-Upstart service for MinIO
-=====================
+# Upstart service for MinIO
 
-Usage
------
+## Usage
 
 - [Download MinIO](https://minio.io/downloads) in `/usr/local/bin/minio`.
 - Execute `sudo setcap cap_net_bind_service=+ep /usr/local/bin/minio`.
@@ -10,4 +8,3 @@ Usage
 - Ensure that export folder `/mnt/export` exists and `minio-user` can access it.
 - Save the appropriate upstart config file in `/etc/init/minio.conf`.
 - Now you can use `sudo service minio start|stop|restart`.
-

@@ -1,6 +1,6 @@
-# Systemd service for MinIO
+# Systemd service for MinIO AIStor
 
-Systemd script for Distributed MinIO server.
+Systemd script for Distributed MinIO AIStor server.
 
 ## Installation
 
@@ -10,37 +10,71 @@ Systemd script for Distributed MinIO server.
 
 ## Create the Environment configuration file
 
-This file serves as input to MinIO systemd service. Use this file to add `MINIO_VOLUMES` with the correct paths, `MINIO_OPTS` to add MinIO server options like `certs-dir`, `address`. MinIO credentials should be `MINIO_ROOT_USER` and `MINIO_ROOT_PASSWORD` in this file as well.
+MinIO AIStor uses a two-file configuration approach to ensure that configuration changes (including variable removals) are properly synchronized when using `mc admin service restart`.
+
+### /etc/default/minio
+
+This file is loaded by systemd and should contain only the variables needed for service startup and the pointer to the main configuration file:
 
 ```sh
-$ cat <<EOT >> /etc/default/minio
+cat <<EOT >> /etc/default/minio
 # Remote volumes to be used for MinIO server.
 MINIO_VOLUMES=http://node{1...6}/export{1...32}
 # Use if you want to run MinIO on a custom port.
-MINIO_OPTS="--address :9199 --console-address :9001"
-# Root user for the server.
-MINIO_ROOT_USER=Root-User
-# Root secret for the server.
-MINIO_ROOT_PASSWORD=Root-Password
-
-# set this for MinIO to reload entries with 'mc admin service restart'
-MINIO_CONFIG_ENV_FILE=/etc/default/minio
+MINIO_OPTS="--address :9000 --console-address :9001"
+# Pointer to the main configuration file
+MINIO_CONFIG_ENV_FILE=/etc/minio/config.env
 EOT
 ```
 
-For distributed setup it is required to copy this file across all nodes to have consistent credentials.
+### /etc/minio/config.env
+
+This file contains all other MinIO configuration variables. Changes to this file (including removals) take effect after `mc admin service restart` without requiring `systemctl restart minio.service`:
+
+```sh
+mkdir -p /etc/minio
+cat <<EOT >> /etc/minio/config.env
+# Root credentials
+MINIO_ROOT_USER=Root-User
+MINIO_ROOT_PASSWORD=Root-Password
+
+# Add other MinIO configuration here
+# MINIO_IDENTITY_LDAP_SERVER_ADDR=ldap.example.com:636
+# MINIO_IDENTITY_LDAP_LOOKUP_BIND_DN=cn=admin,dc=example,dc=com
+EOT
+```
+
+Set appropriate permissions:
+
+```sh
+chmod 600 /etc/minio/config.env
+chown minio-user:minio-user /etc/minio/config.env
+```
+
+For distributed setup, copy both configuration files across all nodes to have consistent credentials and settings.
+
+## Why Two Files?
+
+When MinIO AIStor starts, it captures the systemd environment in `startupEnvironment`. On `mc admin service restart`, the process restarts with this captured environment, then re-reads `MINIO_CONFIG_ENV_FILE`.
+
+- Variables in `/etc/default/minio` persist across restarts (part of `startupEnvironment`)
+- Variables in `/etc/minio/config.env` are re-read fresh each restart
+
+This means removing a variable from `/etc/minio/config.env` and running `mc admin service restart` will properly remove it from the running configuration. If the variable were in `/etc/default/minio`, you would need `systemctl restart minio.service` to remove it.
 
 ## Systemctl
 
 Download `minio.service` in `/lib/systemd/system/`
 
-```
-( cd /lib/systemd/system/; curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/distributed/minio.service )
+```sh
+curl -O https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/distributed/minio.service
+sudo mv minio.service /lib/systemd/system/
+sudo systemctl daemon-reload
 ```
 
-Enable startup on boot
+### Enable startup on boot
 
-```
+```sh
 systemctl enable minio.service
 ```
 
@@ -68,4 +102,4 @@ sudo setcap cap_net_bind_service=+ep /usr/local/bin/minio
 
 ## NOTE
 
-Ensure `minio-user` is created on all the hosts in distributed setup with write access to data folders.
+Ensure `minio-user` is created on all the hosts in distributed setup with write access to data folders and the configuration file.

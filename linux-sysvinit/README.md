@@ -1,8 +1,6 @@
-SysVinit conf for MinIO
-=======================
+# SysVinit conf for MinIO
 
-Usage
------
+## Usage
 
 - [Download MinIO](https://minio.io/downloads) in `/usr/local/bin/minio`.
 - Save the SysVinit config file in `/etc/init.d/minio`.

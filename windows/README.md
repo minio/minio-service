@@ -6,11 +6,13 @@ Download the `install-service.ps1` and move it in your `minio` directory and sta
 After the script is finished, the service is available with the name `MinIO`
 
 Start Service
+
 ```
 net start MinIO
 ```
 
 Stop Service
+
 ```
 net stop MinIO
 ```
@@ -22,7 +24,6 @@ To delete MinIO service,
 ```
 minio-service.exe uninstall
 ```
-
 
 ## Manual install
 
