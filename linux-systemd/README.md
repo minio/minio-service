@@ -101,7 +101,10 @@ limits what they reach:
   replaces the binary, and `/etc/minio`. `/etc/shadow`, `/etc/gshadow`, sudo
   rules, `/root` and the users' crontabs in `/var/spool/cron` are not visible to
   it. Block devices are read-only, so it cannot write a disk directly either;
-  S.M.A.R.T. monitoring only reads them.
+  S.M.A.R.T. monitoring only reads them. `CAP_SYS_ADMIN`, which S.M.A.R.T. needs
+  for NVMe health logs, still lets the process send any NVMe passthrough
+  command, writes included; remove `CAP_SYS_ADMIN` from `AmbientCapabilities`
+  in a drop-in if you do not need S.M.A.R.T. on NVMe drives.
 - `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
   create namespaces.
 - `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
