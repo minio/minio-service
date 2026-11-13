@@ -32,6 +32,11 @@ NoNewPrivileges=yes
 # could remount those paths, so the service may not mount or create namespaces.
 ProtectSystem=full
 ReadWritePaths=-/usr/local/bin -/etc/minio
+# Block devices are read-only too, so the service cannot write a disk directly
+# and change the files on it. S.M.A.R.T. opens them read-only; character
+# devices (NVMe controllers, RDMA, GPUs) stay read-write.
+DeviceAllow=block-* r
+DeviceAllow=char-* rw
 InaccessiblePaths=-/etc/shadow -/etc/gshadow -/etc/sudoers -/etc/sudoers.d -/root -/var/spool/cron
 SystemCallFilter=~@mount @module @reboot @swap @obsolete @cpu-emulation
 SystemCallErrorNumber=EPERM

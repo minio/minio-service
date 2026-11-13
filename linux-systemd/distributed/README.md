@@ -95,14 +95,29 @@ limits what they reach:
 - `CAP_DAC_OVERRIDE` cannot change system files: `/usr`, `/boot` and `/etc` are
   read-only for the service, except `/usr/local/bin`, where an in-place update
   replaces the binary, and `/etc/minio`. `/etc/shadow`, `/etc/gshadow`, sudo
-  rules, `/root` and crontabs are not visible to it.
+  rules, `/root` and the users' crontabs in `/var/spool/cron` are not visible to
+  it. Block devices are read-only, so it cannot write a disk directly either;
+  S.M.A.R.T. monitoring only reads them.
 - `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
   create namespaces.
 - `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
   service file serves nodes with and without RDMA.
 
-If the data folders or the binary live elsewhere under `/usr` or `/etc`, add them
-to `ReadWritePaths` in a drop-in (`systemctl edit minio`).
+If the data folders live elsewhere under `/usr` or `/etc`, add them to
+`ReadWritePaths` in a drop-in (`systemctl edit minio`). If the binary lives
+elsewhere, the drop-in sets `AssertFileIsExecutable` and `ExecStart` to its path,
+and, when its directory is under `/usr` or `/etc`, adds that directory to
+`ReadWritePaths` so in-place updates can replace it:
+
+```ini
+[Unit]
+AssertFileIsExecutable=
+AssertFileIsExecutable=/opt/minio/bin/minio
+
+[Service]
+ExecStart=
+ExecStart=/opt/minio/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
+```
 
 If you're running MinIO outside of systemd, set the capabilities on the binary:
 
