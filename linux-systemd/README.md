@@ -86,11 +86,12 @@ systemctl disable minio.service
 
 The service file includes the following ambient capabilities:
 
-| Capability             | Purpose                                                 |
-| ---------------------- | ------------------------------------------------------- |
-| `CAP_NET_BIND_SERVICE` | Bind to privileged ports (< 1024)                       |
-| `CAP_SYS_ADMIN`        | S.M.A.R.T. disk health monitoring (NVMe admin commands) |
-| `CAP_DAC_OVERRIDE`     | S.M.A.R.T. disk health monitoring (open block devices)  |
+| Capability             | Purpose                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| `CAP_NET_BIND_SERVICE` | Bind to privileged ports (< 1024)                        |
+| `CAP_SYS_ADMIN`        | S.M.A.R.T. disk health monitoring (NVMe admin commands)  |
+| `CAP_DAC_OVERRIDE`     | S.M.A.R.T. disk health monitoring (open block devices)   |
+| `CAP_SYS_RESOURCE`     | Lets the AIStor Files gateway mark itself an I/O flusher |
 
 If you're running MinIO outside of systemd, set the capabilities on the binary:
 

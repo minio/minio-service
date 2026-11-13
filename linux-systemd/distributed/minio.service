@@ -16,7 +16,9 @@ ProtectProc=invisible
 
 # Allow binding to privileged ports (< 1024) without running as root
 # CAP_SYS_ADMIN + CAP_DAC_OVERRIDE enable S.M.A.R.T. disk health monitoring
-AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_SYS_ADMIN CAP_DAC_OVERRIDE
+# CAP_SYS_RESOURCE lets the AIStor Files gateway, which MinIO AIStor starts as a
+# child process, mark itself as an I/O flusher
+AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_SYS_ADMIN CAP_DAC_OVERRIDE CAP_SYS_RESOURCE
 
 EnvironmentFile=-/etc/default/minio
 ExecStart=/usr/local/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
@@ -46,6 +48,10 @@ TimeoutSec=infinity
 OOMScoreAdjust=-1000
 
 SendSIGKILL=no
+
+# Send SIGTERM to MinIO AIStor only: it stops the AIStor Files gateway it started
+# and waits for it to exit, so the gateway shuts down in order
+KillMode=mixed
 
 [Install]
 WantedBy=multi-user.target
