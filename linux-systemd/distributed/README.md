@@ -89,6 +89,21 @@ The service file includes the following ambient capabilities:
 | `CAP_DAC_OVERRIDE`     | S.M.A.R.T. disk health monitoring (open block devices)   |
 | `CAP_SYS_RESOURCE`     | Lets the AIStor Files gateway mark itself an I/O flusher |
 
+These capabilities are all the service can ever hold, and the service file
+limits what they reach:
+
+- `CAP_DAC_OVERRIDE` cannot change system files: `/usr`, `/boot` and `/etc` are
+  read-only for the service, except `/usr/local/bin`, where an in-place update
+  replaces the binary, and `/etc/minio`. `/etc/shadow`, `/etc/gshadow`, sudo
+  rules, `/root` and crontabs are not visible to it.
+- `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
+  create namespaces.
+- `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
+  service file serves nodes with and without RDMA.
+
+If the data folders or the binary live elsewhere under `/usr` or `/etc`, add them
+to `ReadWritePaths` in a drop-in (`systemctl edit minio`).
+
 If you're running MinIO outside of systemd, set the capabilities on the binary:
 
 ```sh
