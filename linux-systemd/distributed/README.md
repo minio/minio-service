@@ -103,9 +103,20 @@ limits what they reach:
   it in a drop-in with `AmbientCapabilities=~CAP_SYS_ADMIN`; a drop-in that only
   lists the other capabilities adds to the set instead. Even then, NVMe
   namespace devices (`/dev/ng*`) accept writes from a process that may open them
-  for writing, which `CAP_DAC_OVERRIDE` and `DeviceAllow=char-* rw` allow; list
-  only the character devices you need in `DeviceAllow` if disk writes must be
-  blocked.
+  for writing, which `CAP_DAC_OVERRIDE` and `DeviceAllow=char-* rw` allow. To
+  block those writes, narrow the device list in a drop-in that starts with an
+  empty `DeviceAllow=`: a non-empty line only adds a rule. The reset also
+  removes `block-* r`, so add it back, then list the character devices the node
+  uses. On RDMA nodes, also allow `char-infiniband_verbs rw` and
+  `/dev/infiniband/rdma_cm rw`.
+
+  ```ini
+  [Service]
+  DeviceAllow=
+  DeviceAllow=block-* r
+  DeviceAllow=/dev/nvme0 r
+  ```
+
 - `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
   create namespaces.
 - `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
