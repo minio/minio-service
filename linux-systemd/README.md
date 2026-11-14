@@ -103,8 +103,13 @@ limits what they reach:
   it. Block devices are read-only, so it cannot write a disk directly either;
   S.M.A.R.T. monitoring only reads them. `CAP_SYS_ADMIN`, which S.M.A.R.T. needs
   for NVMe health logs, still lets the process send any NVMe passthrough
-  command, writes included; remove `CAP_SYS_ADMIN` from `AmbientCapabilities`
-  in a drop-in if you do not need S.M.A.R.T. on NVMe drives.
+  command, writes included. If you do not need S.M.A.R.T. on NVMe drives, remove
+  it in a drop-in with `AmbientCapabilities=~CAP_SYS_ADMIN`; a drop-in that only
+  lists the other capabilities adds to the set instead. Even then, NVMe
+  namespace devices (`/dev/ng*`) accept writes from a process that may open them
+  for writing, which `CAP_DAC_OVERRIDE` and `DeviceAllow=char-* rw` allow; list
+  only the character devices you need in `DeviceAllow` if disk writes must be
+  blocked.
 - `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
   create namespaces.
 - `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
