@@ -117,6 +117,10 @@ limits what they reach:
   DeviceAllow=/dev/nvme0 r
   ```
 
+  Read-only block access stops NVMe writes only on a kernel with the fix for
+  CVE-2026-90227. On an older kernel, `NVME_IOCTL_SUBMIT_IO` writes through a
+  read-only NVMe block device, so update the kernel before relying on it.
+
 - `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
   create namespaces.
 - `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
