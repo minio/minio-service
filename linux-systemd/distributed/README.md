@@ -89,6 +89,46 @@ The service file includes the following ambient capabilities:
 | `CAP_DAC_OVERRIDE`     | S.M.A.R.T. disk health monitoring (open block devices)   |
 | `CAP_SYS_RESOURCE`     | Lets the AIStor Files gateway mark itself an I/O flusher |
 
+These capabilities are all the service can ever hold, and the service file
+limits what they reach:
+
+- `CAP_DAC_OVERRIDE` cannot change system files: `/usr`, `/boot` and `/etc` are
+  read-only for the service, except `/usr/local/bin`, where an in-place update
+  replaces the binary, and `/etc/minio`. `/etc/shadow`, `/etc/gshadow`, sudo
+  rules, `/root` and the users' crontabs in `/var/spool/cron` are not visible to
+  it. Block devices are read-only, so it cannot write a disk directly either;
+  S.M.A.R.T. monitoring only reads them. `CAP_SYS_ADMIN`, which S.M.A.R.T. needs
+  for NVMe health logs, still lets the process send any NVMe passthrough
+  command, writes included. If you do not need S.M.A.R.T. on NVMe drives, remove
+  it in a drop-in with `AmbientCapabilities=~CAP_SYS_ADMIN`; a drop-in that only
+  lists the other capabilities adds to the set instead. Even then, NVMe
+  namespace devices (`/dev/ng*`) accept writes from a process that may open them
+  for writing, which `CAP_DAC_OVERRIDE` and `DeviceAllow=char-* rw` allow. To
+  block those writes, narrow the device list in a drop-in that starts with an
+  empty `DeviceAllow=`: a non-empty line only adds a rule. The reset also
+  removes `block-* r`, so add it back, then list the character devices the node
+  uses. On RDMA nodes, also allow `char-infiniband_verbs rw` and
+  `/dev/infiniband/rdma_cm rw`.
+
+  ```ini
+  [Service]
+  DeviceAllow=
+  DeviceAllow=block-* r
+  DeviceAllow=/dev/nvme0 r
+  ```
+
+  Read-only block access stops NVMe writes only on a kernel with the fix for
+  CVE-2026-90227. On an older kernel, `NVME_IOCTL_SUBMIT_IO` writes through a
+  read-only NVMe block device, so update the kernel before relying on it.
+
+- `CAP_SYS_ADMIN` cannot undo that: the service may not mount file systems or
+  create namespaces.
+- `LimitMEMLOCK=infinity` lets RDMA pin its buffers without root, so the same
+  service file serves nodes with and without RDMA.
+
+If the data folders live under `/usr` or `/etc`, add them to `ReadWritePaths` in a
+drop-in (`systemctl edit minio`).
+
 If you're running MinIO outside of systemd, set the capabilities on the binary:
 
 ```sh
