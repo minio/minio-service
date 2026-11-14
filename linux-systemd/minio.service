@@ -29,7 +29,7 @@ NoNewPrivileges=yes
 # CAP_DAC_OVERRIDE bypasses file permissions, so the system's own files are kept
 # out of its reach: /usr, /boot and /etc are read-only for the service, except
 # the binary's directory, which an in-place update replaces, and /etc/minio.
-# Credentials, sudo rules and crontabs are not visible at all. CAP_SYS_ADMIN
+# Credentials, sudo rules and users' crontabs are not visible. CAP_SYS_ADMIN
 # could remount those paths, so the service may not mount or create namespaces.
 ProtectSystem=full
 ReadWritePaths=-/usr/local/bin -/etc/minio
